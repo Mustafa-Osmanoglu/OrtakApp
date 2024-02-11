@@ -1,0 +1,64 @@
+import pytest
+from selenium import webdriver
+import time
+
+@pytest.fixture
+def setup():
+    driver = webdriver.Chrome()
+    driver.get("https://www.binance.com/tr/price/bitcoin")
+    yield driver
+    driver.quit()
+
+def test_check_price_displayed(setup):
+    time.sleep(2)
+    assert setup.find_element_by_xpath("//span[contains(@class, 'price')]").is_displayed()
+
+def test_change_time_interval(setup):
+    time.sleep(2)
+    setup.find_element_by_xpath("//button[text()='1Y']").click()
+    assert setup.find_element_by_xpath("//button[@aria-pressed='true']").text == "1Y"
+
+def test_zoom_in_out(setup):
+    time.sleep(2)
+    setup.find_element_by_xpath("//button[text()='+']").click()
+    # Additional assertions for checking zoom-in functionality
+    # ...
+
+import pytest
+import requests
+
+@pytest.fixture
+def api_url():
+    return "https://prod.roketapp.site/market/currency?symbol=BTC"
+
+def test_api_response(api_url):
+    response = requests.get(api_url)
+    assert response.status_code == 200
+    assert response.json()["status"] == "success"
+    # Diğer alanlar için gerekli assert'leri ekleyebilirsiniz.
+import pytest
+from selenium import webdriver
+import time
+
+@pytest.fixture
+def setup():
+    driver = webdriver.Chrome()
+    driver.get("https://www.binance.com/tr/price/bitcoin")
+    yield driver
+    driver.quit()
+
+def test_check_price_displayed(setup):
+    time.sleep(2)
+    assert setup.find_element_by_xpath("//span[contains(@class, 'price')]").is_displayed()
+
+def test_change_time_interval(setup):
+    time.sleep(2)
+    setup.find_element_by_xpath("//button[text()='1Y']").click()
+    assert setup.find_element_by_xpath("//button[@aria-pressed='true']").text == "1Y"
+
+def test_zoom_in_out(setup):
+    time.sleep(2)
+    setup.find_element_by_xpath("//button[text()='+']").click()
+    # Additional assertions for checking zoom-in functionality
+    # ...
+
