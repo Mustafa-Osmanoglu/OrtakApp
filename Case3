@@ -1,0 +1,35 @@
+import pytest
+import requests
+
+@pytest.fixture
+def api_url():
+    return "https://prod.roketapp.site/market/currency?symbol=BTC"
+
+def test_api_response(api_url):
+    # API'ye istek gönder
+    response = requests.get(api_url)
+
+    # HTTP durumu kontrolü
+    assert response.status_code == 200
+
+    # JSON yanıtındaki 'status' alanını kontrol et
+    assert response.json()["status"] == "success"
+
+    # JSON yanıtındaki 'data' alanını kontrol et
+    assert "data" in response.json()
+
+    # JSON yanıtındaki 'currencies' alanını kontrol et
+    assert "currencies" in response.json()["data"]
+
+    # JSON yanıtındaki 'currencies' listesinin boş olmadığını kontrol et
+    assert len(response.json()["data"]["currencies"]) > 0
+
+    # JSON yanıtındaki 'name' alanını kontrol et
+    assert "name" in response.json()["data"]["currencies"][0]
+
+    # JSON yanıtındaki 'symbol' alanını kontrol et
+    assert "symbol" in response.json()["data"]["currencies"][0]
+
+    # JSON yanıtındaki 'cmc_rank' alanını kontrol et
+    assert "cmc_rank" in response.json()["data"]["currencies"][0]
+
